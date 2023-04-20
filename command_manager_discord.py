@@ -4,6 +4,7 @@ from data.users import User
 from dscommands.command_context import CommandContext
 from dscommands.games.bones_command import BonesCommand
 from dscommands.games.coin_command import CoinCommand
+from dscommands.games.sapper_command import SapperCommand
 from dscommands.profile.balance_command import BalanceCommand
 from dscommands.utilities.ping_command import PingCommand
 
@@ -17,6 +18,7 @@ class CommandManager:
         self.add_command(BonesCommand)
         self.add_command(BalanceCommand)
         self.add_command(CoinCommand)
+        self.add_command(SapperCommand)
 
     def add_command(self, cmd):
         if cmd in self.commands or any([x.getName() == cmd().getName() for x in self.commands]):
