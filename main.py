@@ -27,7 +27,6 @@ class YLBotClient(commands.Bot):
 #     print(msg.content)
 
 
-client.add_command(ping)
 db_session.global_init("db/yuibot.db")
 client.run(TOKEN)
 # client.add_command(ping)

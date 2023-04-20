@@ -2,6 +2,9 @@ from discord import Message
 from data import db_session
 from data.users import User
 from dscommands.command_context import CommandContext
+from dscommands.games.bones_command import BonesCommand
+from dscommands.games.coin_command import CoinCommand
+from dscommands.profile.balance_command import BalanceCommand
 from dscommands.utilities.ping_command import PingCommand
 
 
@@ -11,9 +14,12 @@ class CommandManager:
     def __init__(self, client):
         self.client = client
         self.add_command(PingCommand)
+        self.add_command(BonesCommand)
+        self.add_command(BalanceCommand)
+        self.add_command(CoinCommand)
 
     def add_command(self, cmd):
-        if cmd in self.commands or any([x.getName() == cmd.getName() for x in self.commands]):
+        if cmd in self.commands or any([x.getName() == cmd().getName() for x in self.commands]):
             raise AssertionError("A command with this name is already present")
         else:
             self.commands.append(cmd())
@@ -25,7 +31,7 @@ class CommandManager:
         return None
 
     async def handle(self, message: Message, prefix):
-        split = message.content.replace(prefix, "").split()
+        split = message.content.lower().replace(prefix, "", 1).split()
         invoke = split[0].lower()
         cmd = self.get_command(invoke)
         if cmd:

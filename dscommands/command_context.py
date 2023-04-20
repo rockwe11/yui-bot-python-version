@@ -19,3 +19,7 @@ class CommandContext:
 
     def get_client(self):
         return self.client
+
+    async def send_message(self, msg):
+        await self.message.channel.send(msg)
+
