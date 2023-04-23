@@ -6,6 +6,7 @@ from dscommands.games.bones_command import BonesCommand
 from dscommands.games.coin_command import CoinCommand
 from dscommands.games.sapper_command import SapperCommand
 from dscommands.profile.balance_command import BalanceCommand
+from dscommands.profile.bonus_command import BonusCommand
 from dscommands.utilities.ping_command import PingCommand
 
 
@@ -19,6 +20,7 @@ class CommandManager:
         self.add_command(BalanceCommand)
         self.add_command(CoinCommand)
         self.add_command(SapperCommand)
+        self.add_command(BonusCommand)
 
     def add_command(self, cmd):
         if cmd in self.commands or any([x.getName() == cmd().getName() for x in self.commands]):
@@ -48,4 +50,5 @@ class CommandManager:
                 db_sess.add(user)
                 db_sess.commit()
             ctx = CommandContext(message, args, self.client)
+            db_sess.close()
             await cmd.handle(ctx)

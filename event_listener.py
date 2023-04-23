@@ -31,4 +31,5 @@ class Listener(commands.Bot):
             db_sess.commit()
         content = message.content
         if content.startswith(guild.prefix):
+            db_sess.close()
             await self.command_manager.handle(message, guild.prefix)

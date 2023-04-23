@@ -21,6 +21,7 @@ class Player:
         self.player_id = player_id
         self.bet = bet
         self.field = []
+        self.flC = 0
         self.create_field(5, 5)
         self.set_mines(5, 5, 5)
         self.count_mines_around(5, 5)
@@ -52,6 +53,44 @@ class Player:
 
     def get_cell(self, x, y) -> Cell:
         return self.field[x][y]
+
+    def open_cell(self, x, y):
+        lose = False
+        self.get_cell(x, y).is_open = True
+        if self.get_cell(x, y).is_mine:
+            self.get_cell(x, y).symb = '💥'
+            self.open_all_cells()
+            lose = True
+        else:
+            self.receive_open(x, y)
+        return lose
+
+    def open_all_cells(self):
+        for width in range(5):
+            for height in range(5):
+                self.get_cell(width, height).is_open = True
+                if self.get_cell(width, height).is_mine:
+                    self.get_cell(width, height).symb = "☢"
+
+    def receive_open(self, x, y):
+        if self.get_cell(x, y).mines_around == 0:
+            for i in range(-1, 2):
+                for j in range(-1, 2):
+                    if 0 <= x + i < 5 and 0 <= y + j < 5 and not self.get_cell(x + i, y + j).is_open:
+                        self.open_cell(x + i, y + j)
+
+    def set_flag(self, x, y):
+        if not self.get_cell(x, y).is_flag():
+            self.flC += 1
+            text_to_send = "🧩 Вы установили флажок.\n"
+            self.get_cell(x, y).fl = True
+            self.get_cell(x, y).symb = "☑"
+        else:
+            self.flC -= 1
+            text_to_send = "🧩 Вы убрали флажок.\n"
+            self.get_cell(x, y).fl = False
+            self.get_cell(x, y).symb = self.numbersS[self.get_cell(x, y).get_mines_around()]
+        return text_to_send
 
     def get_player_id(self):
         return self.player_id

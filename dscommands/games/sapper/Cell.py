@@ -10,7 +10,7 @@ class Cell:
         return self.mines_around
 
     def is_flag(self):
-        return self.is_flag
+        return self.fl
 
     def get_symb(self):
         return self.symb
