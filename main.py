@@ -1,32 +1,31 @@
+import random
+import threading
+
 import discord
-from discord.ext import commands
 import os
 from dotenv import load_dotenv
+from vk_api import vk_api
+from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 
 from event_listener import Listener
 from data import db_session
+from event_listener_vk import ListenerVK
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
+VK_TOKEN = os.getenv('VK_TOKEN')
+GROUP_ID = os.getenv('GROUP_ID')
+db_session.global_init("db/yuibot.db")
+
+vk_session = vk_api.VkApi(token=VK_TOKEN)
+print(1)
+longpoll = VkBotLongPoll(vk_session, GROUP_ID)
+listener_vk = ListenerVK(longpoll, vk_session)
+threading.Thread(target=listener_vk.message_listener).start()
+
+print(2)
 intents = discord.Intents.default()
 intents.message_content = True
 client = Listener(command_prefix="$", intents=intents)
-
-
-class YLBotClient(commands.Bot):
-    async def on_ready(self):
-        print(f'{self.user} has connected to Discord!')
-        for guild in self.guilds:
-            print(
-                f'{self.user} подключились к чату:\n'
-                f'{guild.name}(id: {guild.id})')
-
-
-# @client.event
-# async def on_message(msg):
-#     print(msg.content)
-
-
-db_session.global_init("db/yuibot.db")
 client.run(TOKEN)
-# client.add_command(ping)
+

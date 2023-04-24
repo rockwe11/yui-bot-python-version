@@ -38,3 +38,7 @@ class BonesCommand:
 
     def getName(self):
         return "bones"
+
+    def get_help(self):
+        return "Игра « Кости »\n" \
+               "Использование: {prefix}bones [ставка]"

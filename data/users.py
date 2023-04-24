@@ -10,6 +10,6 @@ class User(SqlAlchemyBase):
                            primary_key=True, autoincrement=True)
     did = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     vid = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    bonustm = sqlalchemy.Column(sqlalchemy.BIGINT, unique=True, nullable=True)
+    bonustm = sqlalchemy.Column(sqlalchemy.BIGINT, nullable=True)
     coins = sqlalchemy.Column(sqlalchemy.BIGINT, nullable=True)
     language = sqlalchemy.Column(sqlalchemy.CHAR)

@@ -9,3 +9,7 @@ class PingCommand:
 
     def getName(self):
         return "ping"
+
+    def get_help(self):
+        return "Данная команда показывает задержку между сервером и ботом.\n\n" \
+               "Использование: {prefix}ping"

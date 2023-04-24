@@ -7,20 +7,56 @@ from dscommands.games.coin_command import CoinCommand
 from dscommands.games.sapper_command import SapperCommand
 from dscommands.profile.balance_command import BalanceCommand
 from dscommands.profile.bonus_command import BonusCommand
+from dscommands.utilities.help_command import HelpCommand
 from dscommands.utilities.ping_command import PingCommand
 
 
 class CommandManager:
-    commands = []
+    emojies = [
+        "(´▽`ʃ♡ƪ)",
+        "(o^▽^o)",
+        "ヽ(・∀・)ﾉ",
+        "(o･ω･o)",
+        "(^人^)",
+        "O(∩_∩)O",
+        "(´• ω •)",
+        "╰(▔∀▔)╯",
+        "(✯◡✯)",
+        "(⌒‿⌒)",
+        "(*°▽°*)",
+        "(´｡• ᵕ •｡)",
+        "ヽ(>∀<☆)ノ",
+        "＼(￣▽￣)／",
+        "(o˘◡˘o)",
+        "(╯✧▽✧)╯",
+        "( ‾́ ◡ ‾́ )",
+        "(๑˘︶˘๑)",
+        "(´･ᴗ･ )",
+        "`(*>﹏<*)′",
+        "(⌒▽⌒)☆",
+        "(´｡• ω •｡)",
+        "(＠＾◡＾)",
+        "(o´▽o)",
+        "(＾▽＾)",
+        "(─‿‿─)",
+        "(◕‿◕)",
+        "＼(≧▽≦)／",
+        "٩(｡•́‿•̀｡)۶",
+        "o(≧▽≦)o",
+        "o(*^＠^*)o",
+        "o(>ω<)o"
+    ]
 
     def __init__(self, client):
         self.client = client
+        self.commands = []
         self.add_command(PingCommand)
         self.add_command(BonesCommand)
         self.add_command(BalanceCommand)
         self.add_command(CoinCommand)
         self.add_command(SapperCommand)
         self.add_command(BonusCommand)
+        self.add_command(HelpCommand)
 
     def add_command(self, cmd):
         if cmd in self.commands or any([x.getName() == cmd().getName() for x in self.commands]):
@@ -49,6 +85,7 @@ class CommandManager:
                 user = User(did=message.author.id, vid="", coins=10000, bonustm=0, language='1')
                 db_sess.add(user)
                 db_sess.commit()
-            ctx = CommandContext(message, args, self.client)
+            ctx = CommandContext(self, message, args, self.client)
             db_sess.close()
             await cmd.handle(ctx)
+

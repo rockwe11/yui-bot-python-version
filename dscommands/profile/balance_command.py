@@ -11,3 +11,7 @@ class BalanceCommand:
 
     def getName(self):
         return "balance"
+
+    def get_help(self):
+        return "Данная команда показывает текущий баланс Вашего аккаунта.\n\n" \
+               "Использование: {prefix}balance"

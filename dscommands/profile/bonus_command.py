@@ -27,3 +27,7 @@ class BonusCommand:
 
     def getName(self):
         return "bonus"
+
+    def get_help(self):
+        return "Бонус в размере от 10000 до 30000 (раз в 12 часов).\n\n" \
+               "Использование: {prefix}bonus"
