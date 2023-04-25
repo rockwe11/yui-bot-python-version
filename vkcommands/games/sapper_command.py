@@ -38,8 +38,8 @@ class SapperCommand:
                 db_sess.commit()
                 self.send_field(player_id, text_to_send, ctx)
         elif len(ctx.get_args()) >= 2 and ctx.get_args()[0] != "fl" and self.get_player(player_id):
-            if not ctx.get_args()[0].isdigit() and not ctx.get_args()[1].isdigit():
-                ctx.send_message("❌ Аргумент должны быть целочисленными числами")
+            if not ctx.get_args()[0].isdigit() or not ctx.get_args()[1].isdigit():
+                ctx.send_message("❌ Аргументы должны быть целочисленными числами")
             elif not(1 <= int(ctx.get_args()[0]) <= 5) or not(1 <= int(ctx.get_args()[1]) <= 5):
                 ctx.send_message("❌ Размер поля - 5x5")
             else:
@@ -53,8 +53,8 @@ class SapperCommand:
                     text_to_send = f"Вы открыли клетку\n\n"
                     self.send_field(player_id, text_to_send, ctx)
         elif len(ctx.get_args()) >= 3 and ctx.get_args()[0] == "fl" and self.get_player(player_id):
-            if not ctx.get_args()[1].isdigit() and not ctx.get_args()[2].isdigit():
-                ctx.send_message("❌ Аргумент должны быть целочисленными числами")
+            if not ctx.get_args()[1].isdigit() or not ctx.get_args()[2].isdigit():
+                ctx.send_message("❌ Аргументы должны быть целочисленными числами")
             elif not(1 <= int(ctx.get_args()[1]) <= 5) or not(1 <= int(ctx.get_args()[2]) <= 5):
                 ctx.send_message("❌ Размер поля - 5x5")
             else:
@@ -117,6 +117,6 @@ class SapperCommand:
                             or self.get_player(player_id).get_cell(width, height - 1).is_flag():
                         text_to_send += self.get_player(player_id).get_cell(width, height - 1).get_symb()
                     else:
-                        text_to_send += "🟨"
+                        text_to_send += "⏹"
             text_to_send += "\n"
         ctx.send_message(text_to_send)

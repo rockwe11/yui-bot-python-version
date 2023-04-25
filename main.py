@@ -18,12 +18,10 @@ GROUP_ID = os.getenv('GROUP_ID')
 db_session.global_init("db/yuibot.db")
 
 vk_session = vk_api.VkApi(token=VK_TOKEN)
-print(1)
 longpoll = VkBotLongPoll(vk_session, GROUP_ID)
 listener_vk = ListenerVK(longpoll, vk_session)
 threading.Thread(target=listener_vk.message_listener).start()
 
-print(2)
 intents = discord.Intents.default()
 intents.message_content = True
 client = Listener(command_prefix="$", intents=intents)

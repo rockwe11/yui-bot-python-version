@@ -1,3 +1,4 @@
+import wavelink
 from discord import Message
 from data import db_session
 from data.users import User
@@ -5,6 +6,13 @@ from dscommands.command_context import CommandContext
 from dscommands.games.bones_command import BonesCommand
 from dscommands.games.coin_command import CoinCommand
 from dscommands.games.sapper_command import SapperCommand
+from dscommands.music.join_command import JoinCommand
+from dscommands.music.leave_command import LeaveCommand
+from dscommands.music.pause_command import PauseCommand
+from dscommands.music.play_command import PlayCommand
+from dscommands.music.resume_command import ResumeCommand
+from dscommands.music.skip_command import SkipCommand
+from dscommands.music.stop_command import StopCommand
 from dscommands.profile.balance_command import BalanceCommand
 from dscommands.profile.bonus_command import BonusCommand
 from dscommands.utilities.help_command import HelpCommand
@@ -49,6 +57,9 @@ class CommandManager:
 
     def __init__(self, client):
         self.client = client
+
+        self.client.loop.create_task(self.connect_nodes())
+
         self.commands = []
         self.add_command(PingCommand)
         self.add_command(BonesCommand)
@@ -57,6 +68,13 @@ class CommandManager:
         self.add_command(SapperCommand)
         self.add_command(BonusCommand)
         self.add_command(HelpCommand)
+        self.add_command(JoinCommand)
+        self.add_command(PlayCommand)
+        self.add_command(StopCommand)
+        self.add_command(PauseCommand)
+        self.add_command(ResumeCommand)
+        self.add_command(LeaveCommand)
+        self.add_command(SkipCommand)
 
     def add_command(self, cmd):
         if cmd in self.commands or any([x.getName() == cmd().getName() for x in self.commands]):
@@ -89,3 +107,11 @@ class CommandManager:
             db_sess.close()
             await cmd.handle(ctx)
 
+    async def connect_nodes(self):
+        await self.client.wait_until_ready()
+        await wavelink.NodePool.create_node(
+            bot=self.client,
+            host='0.0.0.0',
+            port=2333,
+            password='youshallnotpass'
+        )
