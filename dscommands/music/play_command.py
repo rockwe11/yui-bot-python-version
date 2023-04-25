@@ -48,14 +48,14 @@ class PlayCommand:
             await ctx.send_message("", embed=discord.Embed(
                 title=search.title,
                 url=search.uri,
-                description=f"Queued {search.title} in {vc.channel}"))
+                description=f"Добавлено в очередь {search.title} в {vc.channel}"))
         else:
             await vc.play(search)
 
             await ctx.send_message("", embed=discord.Embed(
                 title=search.title,
                 url=search.uri,
-                description=f"Queued {search.title} in {vc.channel}"))
+                description=f"Добавлено в очередь {search.title} в {vc.channel}"))
 
         # filename = await YTDLSource.from_url(ctx.get_args()[0], loop=ctx.client.loop)
         # voice_channel.play(discord.FFmpegPCMAudio(executable='', source=filename))
